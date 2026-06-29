@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Review Item — Mabaan Labeller{% endblock %}
+{% block content %}
+
+{% if flash %}
+<div class="alert alert-success">{{ flash }}</div>
+{% endif %}
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+  <a href="/queue/{{ labeller }}" style="color:#2c4a2e;font-size:.9rem;">← Back to queue</a>
+  <span class="meta">Item {{ item.id[:8] }}…  ·  Task: <strong>{{ item.task }}</strong></span>
+</div>
+
+<!-- Source -->
+<div class="card">
+  <h2>Source Input</h2>
+  <pre>{{ source_json }}</pre>
+</div>
+
+<!-- AI Output -->
+<div class="card">
+  <h2>
+    AI Output
+    <span class="badge {{ item.ai_confidence }}" style="margin-left:8px;">
+      confidence: {{ item.ai_confidence }}
+    </span>
+  </h2>
+  <pre>{{ ai_json }}</pre>
+
+  {% if evidence_verses %}
+  <div class="verses">
+    <strong>Bible evidence used:</strong>
+    {% for v in evidence_verses %}
+    <div class="verse-item">
+      <span class="verse-ref">{{ v.id }}</span>
+      {{ v.mabaan }}
+      {% if v.english %}<em style="color:#666;"> — {{ v.english }}</em>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+<!-- Decision form -->
+<div class="card">
+  <h2>Your Decision</h2>
+  <form method="post" action="/review/{{ item.id }}" id="reviewForm">
+    <input type="hidden" name="labeller" value="{{ labeller }}">
+    <input type="hidden" name="decision" id="decisionField" value="">
+
+    <div class="field-row">
+      <label>Note (optional)</label>
+      <input type="text" name="note" placeholder="Explain your decision if needed">
+    </div>
+
+    <!-- Edit fields (shown only when editing) -->
+    <div id="editSection" style="display:none;">
+      <p style="font-size:.85rem;color:#555;margin-bottom:12px;">
+        Edit any fields below. Leave blank to keep the AI value.
+      </p>
+      {% for key, val in editable_fields.items() %}
+      <div class="field-row">
+        <label>{{ key }}</label>
+        <textarea name="edit_{{ key }}" placeholder="{{ val }}">{{ val }}</textarea>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-approve" onclick="submit('approved')">✓ Approve</button>
+      <button type="button" class="btn btn-edit"    onclick="toggleEdit()">✎ Edit &amp; Approve</button>
+      <button type="button" class="btn btn-reject"  onclick="submit('rejected')">✗ Reject</button>
+      <a href="/queue/{{ labeller }}" class="btn btn-skip">Skip</a>
+    </div>
+  </form>
+</div>
+
+<script>
+function submit(decision) {
+  document.getElementById('decisionField').value = decision;
+  document.getElementById('reviewForm').submit();
+}
+function toggleEdit() {
+  const s = document.getElementById('editSection');
+  if (s.style.display === 'none') {
+    s.style.display = 'block';
+    document.getElementById('decisionField').value = 'approved';
+  } else {
+    s.style.display = 'none';
+  }
+}
+</script>
+{% endblock %}

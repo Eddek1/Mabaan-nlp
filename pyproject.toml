@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mabaan-nlp"
+version = "0.1.0"
+description = "NLP pipeline for Mabaan language documentation and lexicon building"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.52.0",
+    "pydantic>=2.7",
+    "rich>=13.7",
+    "typer>=0.12",
+    "tenacity>=8.3",
+    "python-dotenv>=1.0",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "jinja2>=3.1",
+    "python-multipart>=0.0.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2",
+    "pytest-asyncio>=0.23",
+    "mypy>=1.10",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+mabaan = "mabaan.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mabaan"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+strict = true
+python_version = "3.11"

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Sign In — Mabaan Labeller{% endblock %}
+{% block content %}
+<div style="max-width:400px;margin:80px auto;">
+  <div class="card">
+    <h2 style="font-size:1.3rem;margin-bottom:20px;">Sign in to start labelling</h2>
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+    <form method="post" action="/login">
+      <div class="field-row">
+        <label>Your name</label>
+        <input name="labeller" type="text" placeholder="e.g. Alice" required autofocus>
+      </div>
+      <button class="btn btn-approve" style="width:100%;margin-top:8px;" type="submit">Continue →</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

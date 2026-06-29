@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Your Queue — Mabaan Labeller{% endblock %}
+{% block content %}
+<h2 style="margin-bottom:16px;">Your queue, {{ labeller }}</h2>
+
+{% if items %}
+<div class="progress">
+  <div class="progress-bar" style="width:{{ done_pct }}%"></div>
+</div>
+<p class="meta" style="margin-bottom:20px;">
+  {{ done }} reviewed · {{ items|length }} remaining
+</p>
+
+<div class="card" style="padding:0;overflow:hidden;">
+<table>
+  <thead>
+    <tr><th>#</th><th>Task</th><th>Preview</th><th>Confidence</th><th></th></tr>
+  </thead>
+  <tbody>
+  {% for item in items %}
+  <tr>
+    <td style="color:#888;width:36px;">{{ loop.index }}</td>
+    <td>{{ item.task }}</td>
+    <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+      {{ item.preview }}
+    </td>
+    <td><span class="badge {{ item.ai_confidence }}">{{ item.ai_confidence }}</span></td>
+    <td><a class="btn btn-approve" style="padding:6px 14px;font-size:.8rem;"
+           href="/review/{{ item.id }}?labeller={{ labeller }}">Review</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% else %}
+<div class="empty card">
+  <p style="font-size:1.1rem;margin-bottom:8px;">All done! 🎉</p>
+  <p>No items left in your queue. Ask the coordinator to assign more.</p>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+# Environment
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Data (raw/processed data should not be in version control)
+data/processed/
+data/labelling/
+data/bible/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

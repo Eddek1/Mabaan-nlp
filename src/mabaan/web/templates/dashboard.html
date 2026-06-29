@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Mabaan Labeller{% endblock %}
+{% block content %}
+<h2 style="margin-bottom:20px;">Coordinator Dashboard</h2>
+
+<!-- Overall stats -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px;">
+  {% for label, value, color in stat_cards %}
+  <div class="card" style="padding:18px;text-align:center;">
+    <div style="font-size:2rem;font-weight:700;color:{{ color }};">{{ value }}</div>
+    <div style="font-size:.82rem;color:#666;margin-top:4px;">{{ label }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Per-labeller table -->
+<div class="card">
+  <h2>Labellers</h2>
+  {% if labellers %}
+  <table style="margin-top:12px;">
+    <thead>
+      <tr><th>Name</th><th>Assigned</th><th>Approved</th><th>Rejected</th><th>Remaining</th></tr>
+    </thead>
+    <tbody>
+    {% for row in labellers %}
+    <tr>
+      <td><strong>{{ row.name }}</strong></td>
+      <td>{{ row.assigned }}</td>
+      <td style="color:#155724;">{{ row.approved }}</td>
+      <td style="color:#721c24;">{{ row.rejected }}</td>
+      <td>{{ row.remaining }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="meta">No labellers assigned yet. Use <code>mabaan label assign &lt;name&gt;</code> to assign items.</p>
+  {% endif %}
+</div>
+{% endblock %}

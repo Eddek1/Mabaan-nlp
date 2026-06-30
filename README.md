@@ -1,4 +1,5 @@
-﻿# Mabaan NLP Pipeline
+Project date: 11/20/2025 via VS
+ # Mabaan NLP Pipeline
 
 An NLP pipeline for documenting **Mabaan**, a low-resource Nilo-Saharan language spoken in South Sudan. The system uses retrieval-augmented generation (RAG) grounded in a Mabaan Bible corpus to assist linguists with glossing, lexicon building, and annotation — with a built-in human review workflow.
 
